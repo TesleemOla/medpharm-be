@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken"
-export default {
-    // encode user details
-    encode: function(req, res, next) {
-        const { user } = req.params
+ // encode user details
+export const encode= function(req, res, next) {
+        const { email, password } = req.body
         
         const payload = {
             id: user.id,
@@ -10,10 +9,13 @@ export default {
         };
 
         const options = {expiresIn : "100h"}
-        return jwt.sign(payload, process.env.JWT_SECRET, options)
-    },
+       const coded = jwt.sign(payload, process.env.JWT_SECRET, options)
+       if(!coded) res.sendStatus(500)
+       req.authToken = coded
+    next()
+    }
     // decode user details
-    decode: function(req, res, next) {
+    export const decode = function(req, res, next) {
         const authHeader = req.headers["authorization"].split(' ')
         const token = authHeader && authHeader[1]
 
@@ -27,6 +29,4 @@ export default {
 
             next()
     })
-
     }
-}
