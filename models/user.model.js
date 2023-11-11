@@ -31,15 +31,21 @@ const User = new mongoose.Schema({
     timestamps: true
 })
 User.statics.createUser = async function ( firstName, lastName, email, password ) {
-    try{
-         const hashpw = await bcrypt.hash(password, Number(process.env.SALT))
-            if(hashpw){
-            const user = await new User( firstName, lastName, email.toLowerCase(), hashpw )
-            return user
-            }
-    }catch(error){
-        throw new error
-    }
+    
+   
+          bcrypt.hash(password, 2000,(err, encrypted)=>{
+            if(err) return err
+            console.log(encrypted)
+             User( firstName, lastName, email.toLowerCase(), encrypted )
+            .then(res=>  {
+                console.log(res)
+                return res})
+            .catch(error=> next(error))
+     
+            })
+    // }catch(error){
+    //     throw new error
+    // }
     
     
 }

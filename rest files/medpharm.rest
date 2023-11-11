@@ -6,6 +6,5 @@ POST http://localhost:8000/user/register
  {
     "firstName": "Tes",
     "lastName": "Lay",
-    "email": "acotes@weRETs.co.uk",
-    "password": "kjehwroihtn,knfkdjknd"
+   
  }
