@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
+import { hash, genSalt } from "bcrypt"
 
 const User = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "please enter an email"],
         unique: true,
+        lowercase: true
     },
     password: {
         type: String,
@@ -29,25 +30,52 @@ const User = new mongoose.Schema({
     }
 },{
     timestamps: true
+},{
+    statics: {
+        
+    }
 })
-User.statics.createUser = async function ( firstName, lastName, email, password ) {
+
+User.pre(
+    'save',
+    async function (next){
+        const salt = await genSalt(15)
+        const hashed = await hash(this.password, salt)
+        this.password = hashed
+
+        next()
+    }
+)
+
+User.statics.createUser = async function ( firstName, lastName, email, password ) { 
+            try{
+               
+            const user = await this.create({firstName, lastName, email, password } )
+            
+            return user
+            } 
+            catch(error){
+                throw error}
     
-   
-          bcrypt.hash(password, 2000,(err, encrypted)=>{
-            if(err) return err
-            console.log(encrypted)
-             User( firstName, lastName, email.toLowerCase(), encrypted )
-            .then(res=>  {
-                console.log(res)
-                return res})
-            .catch(error=> next(error))
-     
-            })
-    // }catch(error){
-    //     throw new error
-    // }
     
-    
+}
+User.statics.findAllUsers = async function(){
+    try{
+        const allUsers = await this.find()
+        return allUsers
+    }
+    catch(error){
+        throw new Error(error)
+    }
+}
+User.statics.findUserByEmail = async function(email){
+    try{
+        const user = await this.find({ email: email})
+        return user
+    }
+    catch(err){
+        throw new Error(err)
+    }
 }
 
 
