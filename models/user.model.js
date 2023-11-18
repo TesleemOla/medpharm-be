@@ -68,13 +68,23 @@ User.statics.findAllUsers = async function(){
         throw new Error(error)
     }
 }
-User.statics.findUserByEmail = async function(email){
+User.statics.findUserByEmail = async function(mail){
     try{
-        const user = await this.find({ email: email})
+        
+        const user = await this.findOne({ email: mail})
         return user
     }
     catch(err){
         throw new Error(err)
+    }
+}
+User.statics.findUserById = async function(id){
+    try{
+        const user = await this.findById(id)
+        return user
+    }
+    catch(error){
+        throw new Error(error)
     }
 }
 
