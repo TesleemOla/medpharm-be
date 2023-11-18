@@ -20,5 +20,10 @@ export default{
         const updateValues = req.body
         const editedManufacturer = Manufacturer.EditManufacturer(id, updateValues)
         return res.status(201).json({ success: true, data: editedManufacturer})
+    },
+    DeleteManufacturer: function(req, res){
+        const { id } = req.params
+        const deletedManufacturer = Manufacturer.DeleteManufacturer(id)
+        return res.status(200).json({ success: true, data: deletedManufacturer})
     }
 }

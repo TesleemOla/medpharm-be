@@ -1,17 +1,43 @@
 import jwt from "jsonwebtoken"
- // encode user details
-export const encode= function(req, res, next) {
-        const { email, password } = req.body
-        
-        const payload = {
-            id: user.id,
-            email: user.email
-        };
+import User from "../models/user.model.js"
+import { compare } from "bcrypt"
 
-        const options = {expiresIn : "100h"}
-       const coded = jwt.sign(payload, process.env.JWT_SECRET, options)
-       if(!coded) res.sendStatus(500)
-       req.authToken = coded
+ // encode user details
+
+
+export const encode= async function(req, res, next) {
+        const { email, password } = req.body
+        User.findUserByEmail(email)
+       .then(resp=> {
+        if(resp){
+            compare(password, resp.password)
+            .then(response=>{
+                if(response){
+                    const payload = {
+                        id: resp._id,
+                        email: email
+                    };
+
+                    const options = { expiresIn: "240h" }
+                    jwt.sign(payload, process.env.JWT_SECRET, options)
+                    .then(result=>{
+                        console.log(result)
+                        if(result){
+                            
+                            req.authToken = result
+                        }else{
+                            res.sendStatus(500)
+                        }
+                    })
+                    
+
+                }
+            })
+            .catch(err=> res.status(409).json({ error: "Password incorrect"}))
+        }})
+       .catch(error=> res.status(500).json({error: "User not found"}))
+   
+        
     next()
     }
     // decode user details

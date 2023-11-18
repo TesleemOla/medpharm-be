@@ -11,5 +11,5 @@ router.patch('/api/manufacturers/:id', manufacturer.EditManufacturer)
 
 router.post("/api/maufacturers", manufacturer.AddNewManufacturer)
 
-
+router.delete("/api/manufacturers/:id", manufacturer.DeleteManufacturer)
 export default router;
