@@ -1,4 +1,4 @@
-import { Schema, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 
 const Inventory = new Schema({
@@ -35,9 +35,9 @@ const Inventory = new Schema({
         ref: "Manufacturers",
         required: [true, "Manufacturer Id is required"]
     },
-    qualityStock:{
+    quantityStock:{
         type: Number,
-        required: [true, "Quality stock is required"]
+        required: [true, "Quantity stock is required"]
     },
     supplierId:{
         type: Schema.ObjectId,
@@ -76,7 +76,7 @@ Inventory.statics.getSingleInventory = async function(id){
         return error
     }
 }
-Inventory.statics.EditInventory = async function(id, updateValues){
+Inventory.statics.editInventory = async function(id, updateValues){
     try{
         const InventoryUpdate = await this.findByIdandUpdateValues(id, updateValues)
         return InventoryUpdate
@@ -85,7 +85,7 @@ Inventory.statics.EditInventory = async function(id, updateValues){
         return error
     }
 }
-Inventory.statics.DeleteInventory = async function(id){
+Inventory.statics.deleteInventory = async function(id){
     try{
         const DeletedInventory = await this.deleteOne(id)
         return DeletedInventory
@@ -95,4 +95,4 @@ Inventory.statics.DeleteInventory = async function(id){
     }
 }
 
-export default Model("Inventory", Inventory)
+export default model("Inventory", Inventory)

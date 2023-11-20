@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan"
 import jwt from "jsonwebtoken"
+import helmet from "helmet"
 import { compare } from "bcrypt"
 import { config } from "dotenv";
 // import middlewares
@@ -10,17 +11,33 @@ import Connect from "./db/db.js";
 // import routes
 import { decode } from "./middlewares/Jwt.middleware.js"
 import UserRoute from "./routes/user.route.js"
+import ManufacturerRoute from "./routes/manufacturer.route.js"
+import InventoryRoute from "./routes/inventory.route.js"
 import User from "./models/user.model.js"
 const app = express()
+
+
+// config and connect to mongoose
+config()
 Connect()
 
 // middlewares
+app.use(helmet())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
-app.use("/user", UserRoute)
-config()
+
+
+
 // routes
-app.get("/login",(req,res)=>{
+app.use("/user", UserRoute)
+
+app.use("/api", ManufacturerRoute)
+
+app.use("/api", InventoryRoute)
+
+
+app.get("/",(req,res)=>{
     return res.status(200).json({ success:"starting now"})
     
 })
@@ -46,21 +63,14 @@ app.post("/login", (req, res)=>{
     })
         .catch(error => res.status(500).json({error: error.message}))
     
-
-
-        
-
         
     });
-    // return res.status(200).json({
-    //     success: true,
-    //     token: req.authToken
-    // })
+  
 
 
 
 // use errorhandler
-// app.get("*", errorHandler)
+app.get("*", errorHandler)
 const PORT = process.env.PORT || 8000
 app.listen(PORT,()=>{
     console.log(`server started on ${PORT}`);

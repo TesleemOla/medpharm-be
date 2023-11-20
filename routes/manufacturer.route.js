@@ -3,13 +3,15 @@ import manufacturer from "../controllers/manufacturer.controller.js";
 
 const router = Router();
 
-router.get('/api/manufacturers', manufacturer.GetAllManufacturers)
+router.get("/manufacturers", manufacturer.GetAllManufacturers)
 
-router.get('/api/manufacturers/:id', manufacturer.GetSingleManufacturers)
+router.get("/manufacturers/:id", manufacturer.GetSingleManufacturers)
 
-router.patch('/api/manufacturers/:id', manufacturer.EditManufacturer)
+router.patch("/manufacturers/:id", manufacturer.EditManufacturer)
 
-router.post("/api/maufacturers", manufacturer.AddNewManufacturer)
+router.post("/manufacturers", manufacturer.AddNewManufacturer)
 
-router.delete("/api/manufacturers/:id", manufacturer.DeleteManufacturer)
+router.delete("/manufacturers/:id", manufacturer.DeleteManufacturer)
+
+
 export default router;

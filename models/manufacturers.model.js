@@ -14,7 +14,7 @@ const Manufacturers = new mongoose.Schema({
     },
     address:{
         type: String,
-        
+        required: true
     },
     status:{
         type: String,
@@ -45,12 +45,13 @@ Manufacturers.statics.getSingleManufacturer = async function(id){
 }
 
 Manufacturers.statics.addNewManufacturer = async function(name, phoneNumber, address){
+   console.log(name, address, phoneNumber)
     try{
-        const manufacturer = await this.create({ name, address, phoneNumber})
+        const manufacturer = await this.create({name, address, phoneNumber})
         return manufacturer
     }
     catch(error){
-        throw new Error(error)
+        return error.message
     }
 }
 Manufacturers.statics.deleteManufacturer = async function(id){
@@ -72,4 +73,4 @@ Manufacturers.statics.EditManufacturer = async function(id, updateValues){
     }
 }
 
-export default mongoose.Model("Manufacturers", Manufacturers)
+export default mongoose.model("Manufacturers", Manufacturers)
