@@ -13,6 +13,8 @@ import { decode } from "./middlewares/Jwt.middleware.js"
 import UserRoute from "./routes/user.route.js"
 import ManufacturerRoute from "./routes/manufacturer.route.js"
 import InventoryRoute from "./routes/inventory.route.js"
+import DrugRoute from "./routes/drug.route.js"
+import DrugCategoryRoute from "./routes/drugCategory.route.js";
 import User from "./models/user.model.js"
 const app = express()
 
@@ -36,6 +38,9 @@ app.use("/api", ManufacturerRoute)
 
 app.use("/api", InventoryRoute)
 
+app.use("/api", DrugRoute)
+
+app.use("/api", DrugCategoryRoute)
 
 app.get("/",(req,res)=>{
     return res.status(200).json({ success:"starting now"})

@@ -51,7 +51,7 @@ Manufacturers.statics.addNewManufacturer = async function(name, phoneNumber, add
         return manufacturer
     }
     catch(error){
-        return error.message
+        return error
     }
 }
 Manufacturers.statics.deleteManufacturer = async function(id){

@@ -3,6 +3,7 @@ import Manufacturer from "../models/manufacturers.model.js";
 export default{
     GetAllManufacturers: async function(req, res){
         try{
+
         const manufacturers = await Manufacturer.getAllManufacturers()
         return res.status(200).json({ success: true, data: manufacturers })
         }
@@ -21,12 +22,14 @@ export default{
         }
     },
     AddNewManufacturer: async function (req, res){
-        console.log(req.body)
         try{
     
         const { name, phoneNumber, address} = req.body
+     
         const newManufacturer = await Manufacturer.addNewManufacturer(name,phoneNumber, address)
+        if(newManufacturer.errors) res.status(400).json({ success: false, error: newManufacturer.errors})
         return res.status(201).json({ success: true, data: newManufacturer})
+        
         }
         catch(error){
             return res.status(500).json({ message: "could not add new manufacturer", error: error.message})

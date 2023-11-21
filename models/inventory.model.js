@@ -14,7 +14,7 @@ const Inventory = new Schema({
     },
     drugId: {
         type: Schema.ObjectId,
-        ref: 'drug',
+        ref: 'drugs',
         required: [true, "drugId is required"]
     },
     drugName: {
@@ -46,11 +46,11 @@ const Inventory = new Schema({
     }
 })
 Inventory.statics.addNewInventory = async function({batchNumber, clientId, drugId, drugName, expiryDate,
-     manufacturedDate, manufacturerId, qualityStock, supplierId}){
+     manufacturedDate, manufacturerId, quantityStock, supplierId}){
     try{
         const newInventory = await this.create({
             batchNumber, clientId, drugId, drugName, expiryDate,
-            manufacturedDate, manufacturerId, qualityStock, supplierId
+            manufacturedDate, manufacturerId, quantityStock, supplierId
         })
         return newInventory
     }

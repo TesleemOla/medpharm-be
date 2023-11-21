@@ -5,13 +5,19 @@ export default {
     CreateInventory: async function(req, res){
         try{
         const { batchNumber, clientId, drugId, drugName, expiryDate,
-            manufacturedDate, manufacturerId, qualityStock, supplierId } = req.body;
+            manufacturedDate, manufacturerId, quantityStock, supplierId } = req.body;
+   
         const newInventory = await Inventory.addNewInventory({
             batchNumber, clientId, drugId, drugName, expiryDate,
-            manufacturedDate, manufacturerId, qualityStock, supplierId
+            manufacturedDate, manufacturerId, quantityStock, supplierId
         })
-        console.log(newInventory)
-        return res.status(201).json({ success: true, data: newInventory})
+        if(newInventory.errors) res.status(400).json({success: false, error: newInventory.errors})
+        return res.status(201).json({success: true, data: newInventory})
+        
+        // .then(resp => res.status(201).json({ success: true, data: resp }))
+        // .catch(err=> res.status(400).json({success: false,error: err.message}))
+       
+       
     }
     catch(err){
         res.status(400).json({ success: false, error: err.message})
