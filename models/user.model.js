@@ -61,6 +61,7 @@ User.statics.createUser = async function ( firstName, lastName, email, password 
 }
 User.statics.findAllUsers = async function(){
     try{
+        // if
         const allUsers = await this.find()
         return allUsers
     }
@@ -73,6 +74,15 @@ User.statics.findUserByEmail = async function(mail){
         
         const user = await this.findOne({ email: mail})
         return user
+    }
+    catch(err){
+        throw new Error(err)
+    }
+}
+User.statics.findUserByType = async function(query){
+    try{
+        const users = await this.find({ access: query })
+        return users
     }
     catch(err){
         throw new Error(err)

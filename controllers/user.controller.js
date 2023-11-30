@@ -19,11 +19,25 @@ export default {
         },
         GetUsers: async function(req, res){
             try{
+                // if(req.query.limit && ){
+
+                // }
                 const users = await User.findAllUsers()
                 return res.status(200).json({ success: true, data: users })
             }
             catch(err) {
                 res.status(500).json({ success: false, err: err.message})
+            }
+        },
+        GetUsersByType: async function(req, res){
+            try{
+                let accesstype = req.query.accesstype
+
+                const users = await User.findUserByType(accesstype)
+                return res.status(200).json({ success: true, data: users})
+            }
+            catch(error){
+                res.status(500).json({ success: false, error: error.message })
             }
         },
         GetUserByEmail: async function (req, res){
