@@ -11,7 +11,7 @@ export default {
             batchNumber, clientId, drugId, drugName, expiryDate,
             manufacturedDate, manufacturerId, quantityStock, supplierId
         })
-        if(newInventory.errors) res.status(400).json({success: false, error: newInventory.errors})
+        if(newInventory.error) res.status(400).json({success: false, error: newInventory.errors})
         return res.status(201).json({success: true, data: newInventory})
         
         // .then(resp => res.status(201).json({ success: true, data: resp }))
@@ -55,6 +55,8 @@ export default {
         try{
         const { id } = req.params
         const singleInventory = await Inventory.getSingleInventory(id)
+        
+        if(singleInventory.name === "CastError") return res.status(400).json({ success: false, error: singleInventory.message})
         return res.status(200).json({ success: true, data: singleInventory})
         }
         catch(error){

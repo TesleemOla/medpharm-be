@@ -23,15 +23,15 @@ const Customer = Schema({
     },
     state: {
         type: String
-    },
-    adminId: {
-       type: Schema.ObjectId(),
-       ref: "user"
+    // },
+    // adminId: {
+    //    type: Schema.ObjectId(),
+    //    ref: "user"
     }
 })
-export default model("Customer", Customer)
 
-Customer.statics.create = async function (customerName, contactEmail, phoneNumber, officeAddress, city, state, adminId){
+
+Customer.statics.createCustomer = async function (customerName, contactEmail, phoneNumber, officeAddress, city, state, adminId){
     try{
     const newCustomer = await this.create({
         customerName, contactEmail, phoneNumber, officeAddress, city, state, adminId
@@ -82,3 +82,6 @@ Customer.statics.findCustomersByState= async function( state){
         throw new Error(err)
     }
 }
+
+
+export default model("Customer", Customer)

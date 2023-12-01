@@ -15,6 +15,7 @@ const Inventory = new Schema({
     drugId: {
         type: Schema.ObjectId,
         ref: 'drugs',
+        populate: true,
         required: [true, "drugId is required"]
     },
     drugName: {
