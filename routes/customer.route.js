@@ -14,4 +14,6 @@ router.get("/customer/name", customerController.GetCustomersByName)
 
 
 router.get("/customer/state", customerController.GetCustomersByState)
+
+
 export default router

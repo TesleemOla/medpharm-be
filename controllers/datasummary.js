@@ -1,11 +1,10 @@
-import Customer from "./customer.controller.js"
-import Dispatched from "./dispatchedDrug.controller.js"
-import Category from "./drugcategory.controller.js"
-import Drugs from "./drugs.controller.js"
-import Inventory from "./inventory.controller.js"
-import Manufacturer from "./manufacturer.controller.js"
-import User from "./user.controller.js"
-
+import Customer from "../models/customer.model.js"
+import Dispatched from "../models/dispatched.model.js"
+import Category from "../models/drugCategory.model.js"
+import Drugs from "../models/drug.model.js"
+import Inventory from "../models/inventory.model.js"
+import Manufacturer from "../models/manufacturers.model.js"
+import User from "../models/user.model.js"
 export default{
     GetCounts: async function(req, res){
         try {
@@ -36,7 +35,7 @@ export default{
             const bytype = new Set([users.forEach(item => item.access)])
             const obj = {}
             bytype.forEach(item => {
-                const arr = users.filter(drug => drug.acess === item)
+                const arr = users.filter(drug => drug.access === item)
                 obj[item] = arr
             })
             return res.status(200).json({ success: true, data: obj })
