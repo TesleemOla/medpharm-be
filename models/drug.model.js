@@ -3,11 +3,11 @@ import { Schema, model} from "mongoose";
 
 const Drugs = new Schema({
 
-    // categoryId:{
-    //     type: Schema.ObjectId,
-    //     ref: "drugcategories",
-    //     required: [true, "Please add a drug category"]
-    // },
+    categoryId:{
+        type: Schema.ObjectId,
+        ref: "drugcategories",
+        required: [true, "Please add a drug category"]
+    },
     productId: {
         type: String,
         required: [true, "Product Id is required"]

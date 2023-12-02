@@ -8,7 +8,7 @@ const DispatchedDrug = new Schema({
         required: true
     },
     quantity: {
-        type: number,
+        type: Number,
         required: true,
         default: 1,
     },
@@ -16,6 +16,8 @@ const DispatchedDrug = new Schema({
         type: Schema.ObjectId,
         ref: "Customer"
     }
+},{
+    timestamps: true,
 })
 DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity, client){
     try{

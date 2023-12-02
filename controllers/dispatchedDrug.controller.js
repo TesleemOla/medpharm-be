@@ -1,4 +1,4 @@
-import dispatchedModel from "../models/dispatched.model";
+import dispatchedModel from "../models/dispatched.model.js";
 
 export default{
     CreateDispatched: async function(req, res) {

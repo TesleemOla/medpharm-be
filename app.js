@@ -16,6 +16,8 @@ import InventoryRoute from "./routes/inventory.route.js"
 import DrugRoute from "./routes/drug.route.js"
 import DrugCategoryRoute from "./routes/drugCategory.route.js";
 import CustomerRoute from "./routes/customer.route.js"
+import DispatchedRoute from "./routes/dispatched.route.js"
+import Datasummary from "./routes/datasummary.route.js";
 import User from "./models/user.model.js"
 const app = express()
 
@@ -44,6 +46,10 @@ app.use("/api", DrugRoute)
 app.use("/api", DrugCategoryRoute)
 
 app.use("/api", CustomerRoute)
+
+app.use("/api", DispatchedRoute)
+
+app.use("/api", Datasummary)
 
 app.get("/",(req,res)=>{
     return res.status(200).json({ success:"starting now"})

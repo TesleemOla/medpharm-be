@@ -11,7 +11,11 @@ export default{
                 categoryId, productId, drugName, scientificName, reOrderLevel,
                 drugDescription, treatmentUsedFor, packageType, noInPackage
             })
-            .then(resp=> res.status(201).json({ success:true, data: resp}))
+            .then(resp=> {
+                if(resp.errors){
+                    return res.status(400).json({success: false, errors: resp.errors})
+                }
+                return res.status(201).json({ success:true, data: resp})})
             .catch(err=> res.status(400).json({ success:false, error: err}))
         }catch(err){
             return res.status(500).json({ success: false, error: err.message})
