@@ -23,10 +23,10 @@ const Customer = Schema({
     },
     state: {
         type: String
-    // },
-    // adminId: {
-    //    type: Schema.ObjectId(),
-    //    ref: "user"
+    },
+    adminId: {
+       type: Schema.ObjectId,
+       ref: "user"
     }
 })
 
