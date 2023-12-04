@@ -39,7 +39,7 @@ Customer.statics.createCustomer = async function (customerName, contactEmail, ph
     return newCustomer
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 
@@ -49,7 +49,7 @@ Customer.statics.findAllCustomers = async function(){
     return customers
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 
@@ -59,7 +59,7 @@ Customer.statics.findSingleCustomer = async function(id){
         return customer
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 
@@ -69,7 +69,7 @@ Customer.statics.findCustomerByName = async function( query){
         return customer
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 
@@ -79,7 +79,7 @@ Customer.statics.findCustomersByState= async function( state){
         return customers
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 

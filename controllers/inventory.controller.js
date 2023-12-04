@@ -11,12 +11,8 @@ export default {
             batchNumber, clientId, drugId, drugName, expiryDate,
             manufacturedDate, manufacturerId, quantityStock, supplierId
         })
-        if(newInventory.errors) res.status(400).json({success: false, error: newInventory.errors})
-        return res.status(201).json({success: true, data: newInventory})
         
-        // .then(resp => res.status(201).json({ success: true, data: resp }))
-        // .catch(err=> res.status(400).json({success: false,error: err.message}))
-       
+        return res.status(201).json({success: true, data: newInventory})     
        
     }
     catch(err){

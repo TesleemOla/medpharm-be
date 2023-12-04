@@ -6,11 +6,7 @@ export default{
         if(inventory && client && quantity){
             try{
                 const newDispatched = await dispatchedModel.CreateDispatched(inventory, quantity, client)
-                if(!newDispatched.error){
-                    return res.status(201).json({ success: true, data: newDispatched})
-                }else{
-                    return res.status(400).json({ success: false, data: newDispatched.error.message})
-                }
+                return res.status(201).json({ success: true, data: newDispatched})
             }
             catch(err){ 
                 return res.status(500).json({ success: false, error: err.message})

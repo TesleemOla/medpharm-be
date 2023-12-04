@@ -32,7 +32,9 @@ export default{
     GetUserCountByType: async function(req, res){
         try {
             const users = await User.find()
+            console.log(users)
             const bytype = new Set([users.forEach(item => item.access)])
+            console.log(bytype)
             const obj = {}
             bytype.forEach(item => {
                 const arr = users.filter(drug => drug.access === item)
@@ -52,8 +54,10 @@ export default{
             const bycategory = new Set([drugs.forEach(item=> item.categoryId)])
             const obj = {}
             bycategory.forEach(item=>{
-                const arr = drugs.filter(drug=> drug.categoryId === item)
-                obj[item] = arr
+            console.log(item)
+            const arr = drugs.filter(drug=> drug.categoryId === item)
+            `obj${item}` = arr
+            console.log(obj)
             })
             return res.status(200).json({ success: true, data: obj})
         }
@@ -67,8 +71,10 @@ export default{
             const bypackage = new Set([drugs.forEach(item => item.packageType)])
             const obj = {}
             bypackage.forEach(item => {
+                console.log(item)
                 const arr = drugs.filter(drug => drug.packageType === item)
                 obj[item] = arr
+                console.log(obj)
             })
             return res.status(200).json({ success: true, data: obj })
         }

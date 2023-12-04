@@ -25,7 +25,7 @@ DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity
         return newDispatched
     }
     catch(err){
-        return err
+        throw err
     }
 }
 
@@ -35,7 +35,7 @@ DispatchedDrug.statics.GetAllDispatched = async function(){
         return allDispatched
     }
     catch(err){
-        return err
+        throw err
     }
 }
 
@@ -45,7 +45,7 @@ DispatchedDrug.statics.GetDispatchedByCustomer = async function(customerId){
         return dispatched
     }
     catch(err){
-        return err
+        throw err
     }
 }
 DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
@@ -55,7 +55,7 @@ DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
 
     }
     catch (err) {
-        return err
+        throw err
     }
 }
 DispatchedDrug.statics.GetSingleDispatched = async function(id){
@@ -65,7 +65,7 @@ DispatchedDrug.statics.GetSingleDispatched = async function(id){
 
     }
     catch (err) {
-        return err
+        throw err
     }
 }
 
@@ -75,7 +75,7 @@ DispatchedDrug.statics.EditDispatchedDrug = async function(id, updateValues){
         return dispatched
     }
     catch(err){
-        return err
+        throw err
     }
 }
 export default model("DispatchedDrug", DispatchedDrug)

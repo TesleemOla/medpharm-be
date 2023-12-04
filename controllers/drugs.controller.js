@@ -6,17 +6,16 @@ export default{
             categoryId, productId, drugName, scientificName, reOrderLevel,
             drugDescription, treatmentUsedFor, packageType, noInPackage
         } = req.body
+        console.log(req.body)
         try{
-            Drugs.createDrug({
+            const drugs = await Drugs.createDrug({
                 categoryId, productId, drugName, scientificName, reOrderLevel,
                 drugDescription, treatmentUsedFor, packageType, noInPackage
             })
-            .then(resp=> {
-                if(resp.errors){
-                    return res.status(400).json({success: false, errors: resp.errors})
-                }
-                return res.status(201).json({ success:true, data: resp})})
-            .catch(err=> res.status(400).json({ success:false, error: err}))
+            if(!drugs){
+                return res.status(400).json({ success: false, error: drugs})
+            }
+            return res.status(201).json({ success: true, data: drugs})
         }catch(err){
             return res.status(500).json({ success: false, error: err.message})
         }
@@ -24,9 +23,8 @@ export default{
     EditDrug: async function(req, res){
         const { id } = req.params
         try{
-            Drugs.editDrug(id)
-            .then(resp=> res.status(200).json({ success:true, data: resp.data}))
-            .catch(err=> res.status(500).json({ success:false, error: err.message}))
+            const data = await Drugs.editDrug(id)
+            return res.status(200).json({ success:true, data: resp.data})
         }
         catch(err){
             return res.status(500).json({ success:false, error: err.message})
@@ -35,9 +33,9 @@ export default{
     GetSingleDrug: async function(req, res){
         const { id } = req.params
         try{
-            Drugs.getSingleDrug(id)
-            .then(resp=> res.status(200).json({ success: true, data: resp}))
-            .catch(err=> res.status(400).json({success: false, error: err.message}))
+            const drugs = await Drugs.getSingleDrug(id)
+            return res.status(200).json({ success: true, data: drugs})
+        
         }
         catch(err){
             return res.status(500).json({success: false, error: err.message})
@@ -45,9 +43,8 @@ export default{
     },
     GetAllDrugs: async function(req, res){
         try{
-            Drugs.getAllDrugs()
-            .then(resp=> res.status(200).json({ success: true, data: resp}))
-            .catch(err=> res.status(400).json({success: false, error: err.message}))
+            const alldrugs = await Drugs.getAllDrugs()
+            return res.status(200).json({ success: true, data: alldrugs})
         }
         catch(error){
             return res.status(500).json({success: false, error: error.message})
@@ -56,9 +53,8 @@ export default{
     DeleteDrug: async function(req, res){
         const { id } = req.params
         try{
-            Drugs.deleteDrug(id)
-            .then(resp=> res.status(200).json({ success: true, data: resp}))
-            .catch(err=> res.status(400).json({success: false, error: err.message}))
+            const drugs = await Drugs.deleteDrug(id)
+            return res.status(200).json({ success: true, data: drugs})
         }
         catch(err){
             return res.status(500).json({success: false, error: err.message})

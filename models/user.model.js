@@ -66,7 +66,7 @@ User.statics.findAllUsers = async function(){
         return allUsers
     }
     catch(error){
-        throw new Error(error)
+        throw error
     }
 }
 User.statics.findUserByEmail = async function(mail){
@@ -76,7 +76,7 @@ User.statics.findUserByEmail = async function(mail){
         return user
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 User.statics.findUserByType = async function(query){
@@ -85,7 +85,7 @@ User.statics.findUserByType = async function(query){
         return users
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 User.statics.findUserById = async function(id){
@@ -94,7 +94,7 @@ User.statics.findUserById = async function(id){
         return user
     }
     catch(error){
-        throw new Error(error)
+        throw error
     }
 }
 

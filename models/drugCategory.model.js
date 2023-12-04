@@ -18,7 +18,7 @@ DrugCategory.statics.createCategory = async function(name, description) {
         return newCategory
     }
     catch(error){
-        return error
+        throw error
     }
 }
 DrugCategory.statics.getAllCategories = async function(){
@@ -27,7 +27,7 @@ DrugCategory.statics.getAllCategories = async function(){
         return allCategory
     }
     catch(error){
-        return error
+        throw error
     }
 }
 DrugCategory.statics.getCategory = async function(id){
@@ -36,7 +36,7 @@ DrugCategory.statics.getCategory = async function(id){
         return category
     }
     catch(error){
-        return error
+        throw error
     }
 }
 
@@ -46,7 +46,7 @@ DrugCategory.statics.editcategory = async function(id, updatedValues){
         return newUpdate
     }
     catch(error){
-        return error
+        throw error
     }
 }
 export default model("DrugCategory", DrugCategory)

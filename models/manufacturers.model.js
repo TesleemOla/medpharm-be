@@ -30,7 +30,7 @@ Manufacturers.statics.getAllManufacturers = async function(){
         return manufacturers
     }
     catch(err){
-        throw new Error(err)
+        throw err
     }
 }
 
@@ -40,7 +40,7 @@ Manufacturers.statics.getSingleManufacturer = async function(id){
         return manufacturer
     }
     catch(error){
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -51,7 +51,7 @@ Manufacturers.statics.addNewManufacturer = async function(name, phoneNumber, add
         return manufacturer
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Manufacturers.statics.deleteManufacturer = async function(id){
@@ -60,7 +60,7 @@ Manufacturers.statics.deleteManufacturer = async function(id){
         return deletedManufacturer
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Manufacturers.statics.EditManufacturer = async function(id, updateValues){
@@ -69,7 +69,7 @@ Manufacturers.statics.EditManufacturer = async function(id, updateValues){
         return newManufacturer
     }
     catch(error){
-        return error.message
+        throw error
     }
 }
 

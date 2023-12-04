@@ -26,9 +26,8 @@ export default{
     GetSingleCategory: async function(req, res){
         const { id } = req.params
         try{
-            DrugCategory.getCategory(id)
-            .then(resp=> res.status(200).json({success: true, data: resp}))
-            .catch(err=> res.status(500).json({success: false, error: err}))
+            const category = await DrugCategory.getCategory(id)
+            return res.status(200).json({success: true, data: category})
         }
         catch(error){
             return res.status(500).json({success: false, error: error})
@@ -36,10 +35,10 @@ export default{
     },
     EditCategory: async function(req, res){
         const { id } = req.params
+        const { updateValues } = req.body
         try{
-            DrugCategory.editCategory(id)
-            .then(resp=> res.status(200).json({success: true, data: resp}))
-            .catch(err=> res.status(400).json({success: false, error: err}))
+            const category = await DrugCategory.editCategory(id, updateValues)
+            return res.status(200).json({success: true, data: category})
         }
         catch(error){
             return res.status(500).json({success: false, error:error})

@@ -47,14 +47,14 @@ Drugs.statics.createDrug = async function (categoryId, productId, drugName, scie
     drugDescription, treatmentUsedFor, packageType, noInPackage) {
 
     try {
-        const create = await this.create({
+        const newdrug = await this.create({
             categoryId, productId, drugName, scientificName, reOrderLevel,
             drugDescription, treatmentUsedFor, packageType, noInPackage
         })
-        return create
+        return newdrug
     }
     catch (err) {
-        return err
+       throw err
     }
 }
 
@@ -64,7 +64,7 @@ Drugs.statics.getAllDrugs= async function(){
     return alldrugs
     }
     catch(error){
-        return error
+        throw error
     }
 }
 
@@ -74,7 +74,7 @@ Drugs.statics.getSingleDrug = async function(id){
         return singleDrug
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Drugs.statics.deleteDrugs = async function(id){
@@ -82,8 +82,8 @@ Drugs.statics.deleteDrugs = async function(id){
         const deletedItem = await this.delete(id)
         return deletedItem
     }
-    catch(err){
-        return err
+    catch(error){
+        throw error
     }
 }
 Drugs.statics.editDrug = async function(id, updatedValues){
@@ -92,7 +92,7 @@ Drugs.statics.editDrug = async function(id, updatedValues){
         return editedItem
     }
     catch(error){
-        return error
+        throw error
     }
 }
 export default model("Drugs", Drugs)

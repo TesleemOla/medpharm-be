@@ -56,7 +56,7 @@ Inventory.statics.addNewInventory = async function({batchNumber, clientId, drugI
         return newInventory
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Inventory.statics.getAllInventory= async function(){
@@ -65,7 +65,7 @@ Inventory.statics.getAllInventory= async function(){
         return Inventories
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Inventory.statics.getSingleInventory = async function(id){
@@ -74,7 +74,7 @@ Inventory.statics.getSingleInventory = async function(id){
         return Inventory
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Inventory.statics.editInventory = async function(id, updateValues){
@@ -83,7 +83,7 @@ Inventory.statics.editInventory = async function(id, updateValues){
         return InventoryUpdate
     }
     catch(error){
-        return error
+        throw error
     }
 }
 Inventory.statics.deleteInventory = async function(id){
@@ -92,7 +92,7 @@ Inventory.statics.deleteInventory = async function(id){
         return DeletedInventory
     }
     catch(error){
-        return error
+        throw error
     }
 }
 
