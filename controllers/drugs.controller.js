@@ -1,20 +1,18 @@
 import Drugs from "../models/drug.model.js"
 
+
 export default{
     CreateDrug: async function(req,res){
         const {
             categoryId, productId, drugName, scientificName, reOrderLevel,
             drugDescription, treatmentUsedFor, packageType, noInPackage
         } = req.body
-        console.log(req.body)
+ 
         try{
-            const drugs = await Drugs.createDrug({
+            const drugs = await Drugs.createDrug(
                 categoryId, productId, drugName, scientificName, reOrderLevel,
                 drugDescription, treatmentUsedFor, packageType, noInPackage
-            })
-            if(!drugs){
-                return res.status(400).json({ success: false, error: drugs})
-            }
+            )
             return res.status(201).json({ success: true, data: drugs})
         }catch(err){
             return res.status(500).json({ success: false, error: err.message})
@@ -24,7 +22,7 @@ export default{
         const { id } = req.params
         try{
             const data = await Drugs.editDrug(id)
-            return res.status(200).json({ success:true, data: resp.data})
+            return res.status(200).json({ success:true, data})
         }
         catch(err){
             return res.status(500).json({ success:false, error: err.message})

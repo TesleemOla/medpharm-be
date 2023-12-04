@@ -42,14 +42,17 @@ export const encode= async function(req, res, next) {
     }
     // decode user details
     export const decode = function(req, res, next) {
+        if(!req.headers["authorization"]) {
+            return res.status(401).json({ message: "Request headers not added"})
+        }
         const authHeader = req.headers["authorization"].split(' ')
         const token = authHeader && authHeader[1]
-
-        if(!token) res.sendStatus(401)
+        
+        if(!token) res.status(401).json({ message: "user token not found"})
         jwt.verify(token, process.env.JWT_SECRET, (err, user)=>{
-            console.log(err)
+            
 
-            if(err) return res.sendStateus(403)
+            if(err) return res.status(403).json({ error: err.message})
 
             req.user = user
 

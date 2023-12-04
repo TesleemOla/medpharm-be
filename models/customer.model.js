@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 const Customer = Schema({
     customerName:{
@@ -25,7 +25,7 @@ const Customer = Schema({
         type: String
     },
     adminId: {
-       type: Schema.ObjectId,
+       type: Types.ObjectId,
        ref: "user"
     }
 })
@@ -34,7 +34,8 @@ const Customer = Schema({
 Customer.statics.createCustomer = async function (customerName, contactEmail, phoneNumber, officeAddress, city, state, adminId){
     try{
     const newCustomer = await this.create({
-        customerName, contactEmail, phoneNumber, officeAddress, city, state, adminId
+        customerName, contactEmail, phoneNumber, officeAddress, city, state, 
+        adminId: new Types.ObjectId(adminId)
     })
     return newCustomer
     }
@@ -45,7 +46,7 @@ Customer.statics.createCustomer = async function (customerName, contactEmail, ph
 
 Customer.statics.findAllCustomers = async function(){
     try{
-    const customers = await this.find()
+    const customers = await this.find().populate("adminId")
     return customers
     }
     catch(err){
@@ -55,7 +56,7 @@ Customer.statics.findAllCustomers = async function(){
 
 Customer.statics.findSingleCustomer = async function(id){
     try{
-        const customer = await this.findById(id)
+        const customer = await this.findById(id).populate("adminId")
         return customer
     }
     catch(err){

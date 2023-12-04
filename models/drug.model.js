@@ -1,11 +1,11 @@
-import { Schema, model} from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 
 const Drugs = new Schema({
 
     categoryId:{
-        type: Schema.ObjectId,
-        ref: "drugcategories",
+        type: Types.ObjectId,
+        ref: "DrugCategory",
         required: [true, "Please add a drug category"]
     },
     productId: {
@@ -48,7 +48,8 @@ Drugs.statics.createDrug = async function (categoryId, productId, drugName, scie
 
     try {
         const newdrug = await this.create({
-            categoryId, productId, drugName, scientificName, reOrderLevel,
+            categoryId: new Types.ObjectId(categoryId)
+            , productId, drugName, scientificName, reOrderLevel,
             drugDescription, treatmentUsedFor, packageType, noInPackage
         })
         return newdrug
@@ -60,7 +61,7 @@ Drugs.statics.createDrug = async function (categoryId, productId, drugName, scie
 
 Drugs.statics.getAllDrugs= async function(){
     try{
-    let alldrugs = await this.find()
+    let alldrugs = await this.find().populate("categoryId")
     return alldrugs
     }
     catch(error){
@@ -70,7 +71,7 @@ Drugs.statics.getAllDrugs= async function(){
 
 Drugs.statics.getSingleDrug = async function(id){
     try{
-        const singleDrug = await this.findById(id)
+        const singleDrug = await this.findById(id).populate("categoryId")
         return singleDrug
     }
     catch(error){
@@ -88,7 +89,7 @@ Drugs.statics.deleteDrugs = async function(id){
 }
 Drugs.statics.editDrug = async function(id, updatedValues){
     try{
-        const editedItem = await this.findByIdAndUpdate(id, updatedValues)
+        const editedItem = await this.findByIdAndUpdate(id, updatedValues, {new: true})
         return editedItem
     }
     catch(error){

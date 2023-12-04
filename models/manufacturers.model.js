@@ -65,7 +65,7 @@ Manufacturers.statics.deleteManufacturer = async function(id){
 }
 Manufacturers.statics.EditManufacturer = async function(id, updateValues){
     try{
-        const newManufacturer = await this.findByIdandUpdate(id, updateValues)
+        const newManufacturer = await this.findByIdandUpdate(id, updateValues, { new: true })
         return newManufacturer
     }
     catch(error){

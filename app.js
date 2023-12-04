@@ -33,7 +33,41 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
 
 
+// login route before using token as midddleware
+app.get("/", (req, res) => {
+    return res.status(200).json({ success: "starting now" })
 
+})
+
+
+app.post("/login", (req, res) => {
+
+    User.findOne({ email: req.body.email })
+        .then(resp => {
+            if (resp) {
+                compare(req.body.password, resp.password)
+                    .then(result => {
+                        if (result) {
+                            let token = jwt.sign({ id: result._id }, process.env.JWT_SECRET, {
+                                expiresIn: 86400 // expires in 24 hours
+                            });
+                            res.status(200).json({ success: false, auth: true, token: token });
+                        } else {
+                            res.status(409).json({ success: false, error: "Incorrect Password" })
+                        }
+                    })
+                    .catch(err => res.status(401).send({ success: false, error: err.message }))
+            }
+        })
+        .catch(error => res.status(500).json({ error: error.message }))
+
+
+});
+
+
+// token as middleware
+
+app.use(decode)
 // routes
 app.use("/user", UserRoute)
 
@@ -51,35 +85,6 @@ app.use("/api", DispatchedRoute)
 
 app.use("/api", Datasummary)
 
-app.get("/",(req,res)=>{
-    return res.status(200).json({ success:"starting now"})
-    
-})
-
-
-app.post("/login", (req, res)=>{
-    User.findOne({ email: req.body.email })
-    .then(resp=> {
-        if(resp){
-            compare(req.body.password, resp.password)
-            .then( result=>{
-                if(result){
-                let token = jwt.sign({ id: result._id }, process.env.JWT_SECRET, {
-                    expiresIn: 86400 // expires in 24 hours
-                });
-                res.status(200).json({success: false, auth: true, token: token });
-            }else{
-                res.status(409).json({ success: false, error: "Incorrect Password"})
-            }
-            })
-            .catch(err=> res.status(401).send({success: false, error: err.message}))
-        }
-    })
-        .catch(error => res.status(500).json({error: error.message}))
-    
-        
-    });
-  
 
 
 

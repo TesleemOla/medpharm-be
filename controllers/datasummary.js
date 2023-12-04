@@ -55,9 +55,9 @@ export default{
             const obj = {}
             bycategory.forEach(item=>{
             console.log(item)
-            const arr = drugs.filter(drug=> drug.categoryId === item)
-            `obj${item}` = arr
-            console.log(obj)
+            // const arr = drugs.filter(drug=> drug.categoryId === item)
+            // `obj${item}` = arr
+            // console.log(obj)
             })
             return res.status(200).json({ success: true, data: obj})
         }

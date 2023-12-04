@@ -1,9 +1,9 @@
-import { Schema,model } from "mongoose";
+import { Schema,Types,model } from "mongoose";
 
 const DispatchedDrug = new Schema({
 
     inventory: {
-        type: Schema.ObjectId,
+        type: Types.ObjectId,
         ref: "Inventory",
         required: true
     },
@@ -13,7 +13,7 @@ const DispatchedDrug = new Schema({
         default: 1,
     },
     client: {
-        type: Schema.ObjectId,
+        type: Types.ObjectId,
         ref: "Customer"
     }
 },{
@@ -21,7 +21,11 @@ const DispatchedDrug = new Schema({
 })
 DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity, client){
     try{
-        const newDispatched = await this.create({ inventory, quantity, client });
+        const newDispatched = await this.create({
+             inventory: new Types.ObjectId(inventory), 
+             quantity,
+             client: new Types.ObjectId(client)
+             });
         return newDispatched
     }
     catch(err){
@@ -31,7 +35,7 @@ DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity
 
 DispatchedDrug.statics.GetAllDispatched = async function(){
     try{
-        const allDispatched = await this.find()
+        const allDispatched = await this.find().populate("inventory","client")
         return allDispatched
     }
     catch(err){
@@ -41,7 +45,7 @@ DispatchedDrug.statics.GetAllDispatched = async function(){
 
 DispatchedDrug.statics.GetDispatchedByCustomer = async function(customerId){
     try{
-        const dispatched = await this.find({ client: customerId}).populate(inventory, client)
+        const dispatched = await this.find({ client: customerId}).populate('inventory', 'client')
         return dispatched
     }
     catch(err){
@@ -50,7 +54,7 @@ DispatchedDrug.statics.GetDispatchedByCustomer = async function(customerId){
 }
 DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
     try {
-        const dispatched = await this.find({ inventory: inventoryId }).populate(inventory, client)
+        const dispatched = await this.find({ inventory: inventoryId }).populate('inventory', 'client')
         return dispatched
 
     }
@@ -60,7 +64,7 @@ DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
 }
 DispatchedDrug.statics.GetSingleDispatched = async function(id){
     try {
-        const dispatched = await this.findById(id).populate(inventory, client)
+        const dispatched = await this.findById(id).populate('inventory', 'client')
         return dispatched
 
     }
@@ -71,7 +75,7 @@ DispatchedDrug.statics.GetSingleDispatched = async function(id){
 
 DispatchedDrug.statics.EditDispatchedDrug = async function(id, updateValues){
     try{
-        const dispatched = await this.findByIdAndUpdate(id, updateValues)
+        const dispatched = await this.findByIdAndUpdate(id, updateValues, {new: true})
         return dispatched
     }
     catch(err){

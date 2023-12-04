@@ -42,7 +42,7 @@ DrugCategory.statics.getCategory = async function(id){
 
 DrugCategory.statics.editcategory = async function(id, updatedValues){
     try{
-        const newUpdate = await this.findByIdAndUpdate(id, updatedValues)
+        const newUpdate = await this.findByIdAndUpdate(id, updatedValues, {new: true})
         return newUpdate
     }
     catch(error){

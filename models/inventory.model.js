@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 
 const Inventory = new Schema({
@@ -8,7 +8,7 @@ const Inventory = new Schema({
         required: true
     },
     clientId:{
-        type: Schema.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         required: [true, "ClientId is required"]
     },
@@ -50,8 +50,12 @@ Inventory.statics.addNewInventory = async function({batchNumber, clientId, drugI
      manufacturedDate, manufacturerId, quantityStock, supplierId}){
     try{
         const newInventory = await this.create({
-            batchNumber, clientId, drugId, drugName, expiryDate,
-            manufacturedDate, manufacturerId, quantityStock, supplierId
+            batchNumber,
+             clientId: new Types.ObjectId(clientId),
+             drugId, drugName, expiryDate,
+            manufacturedDate,
+             manufacturerId: new Types.ObjectId(manufacturerId),
+              quantityStock, supplierId
         })
         return newInventory
     }
@@ -61,7 +65,7 @@ Inventory.statics.addNewInventory = async function({batchNumber, clientId, drugI
 }
 Inventory.statics.getAllInventory= async function(){
     try{
-        const Inventories = await this.find()
+        const Inventories = await this.find().populate("clientId","manufacturerId")
         return Inventories
     }
     catch(error){
@@ -70,7 +74,7 @@ Inventory.statics.getAllInventory= async function(){
 }
 Inventory.statics.getSingleInventory = async function(id){
     try{
-        const Inventory = await this.findById(id)
+        const Inventory = await this.findById(id).populate("clientId", "manufacturerId")
         return Inventory
     }
     catch(error){
@@ -79,7 +83,7 @@ Inventory.statics.getSingleInventory = async function(id){
 }
 Inventory.statics.editInventory = async function(id, updateValues){
     try{
-        const InventoryUpdate = await this.findByIdandUpdateValues(id, updateValues)
+        const InventoryUpdate = await this.findByIdandUpdateValues(id, updateValues, {new: true})
         return InventoryUpdate
     }
     catch(error){
