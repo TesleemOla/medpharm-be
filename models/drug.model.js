@@ -10,7 +10,8 @@ const Drugs = new Schema({
     },
     productId: {
         type: String,
-        required: [true, "Product Id is required"]
+        required: [true, "Product Id is required"],
+        unique: true,
     },
     drugName: {
         type: String,
@@ -23,7 +24,8 @@ const Drugs = new Schema({
     },
     reOrderLevel: {
         type: Number,
-        required: true
+        enum: [1,2,3,4,5],
+        required: [true, "Please add a reorder level to indicate the urgency"]
     },
     drugDescription:{
         type: String
@@ -78,9 +80,28 @@ Drugs.statics.getSingleDrug = async function(id){
         throw error
     }
 }
-Drugs.statics.deleteDrugs = async function(id){
+
+Drugs.statics.GetDrugsByCategory = async function(categoryid){
     try{
-        const deletedItem = await this.delete(id)
+        const allincategory = await this.find({ categoryId: categoryid})
+        return allincategory
+    }
+    catch(error){
+        throw error
+    }
+}
+Drugs.statics.GetDrugsByPackagename = async function(packagename){
+    try{
+        const allinpackage = await this.find({packageType: packagename})
+        return allinpackage
+    }
+    catch(error){
+        throw error
+    }
+}
+Drugs.statics.deleteDrug = async function(id){
+    try{
+        const deletedItem = await this.deleteOne({_id: id})
         return deletedItem
     }
     catch(error){

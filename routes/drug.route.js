@@ -11,7 +11,7 @@ router.post("/drug", drugs.CreateDrug)
 
 router.put("/drug/:id", drugs.EditDrug)
 
-router.delete("/drug",drugs.DeleteDrug)
+router.delete("/drug/:id",drugs.DeleteDrug)
 
 
 export default router

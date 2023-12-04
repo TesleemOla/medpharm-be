@@ -74,7 +74,7 @@ Inventory.statics.getAllInventory= async function(){
 }
 Inventory.statics.getSingleInventory = async function(id){
     try{
-        const Inventory = await this.findById(id).populate("clientId", "manufacturerId")
+        const Inventory = await this.findById(id).populate("clientId","manufacturerId")
         return Inventory
     }
     catch(error){
@@ -92,7 +92,7 @@ Inventory.statics.editInventory = async function(id, updateValues){
 }
 Inventory.statics.deleteInventory = async function(id){
     try{
-        const DeletedInventory = await this.deleteOne(id)
+        const DeletedInventory = await this.findByIdAndDelete(id)
         return DeletedInventory
     }
     catch(error){

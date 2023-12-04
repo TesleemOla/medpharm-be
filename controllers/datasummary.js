@@ -5,6 +5,10 @@ import Drugs from "../models/drug.model.js"
 import Inventory from "../models/inventory.model.js"
 import Manufacturer from "../models/manufacturers.model.js"
 import User from "../models/user.model.js"
+import { convertIdtoString, convertStringtoId } from "../middlewares/helperfunctions/convertId.js"
+
+
+
 export default{
     GetCounts: async function(req, res){
         try {
@@ -32,14 +36,16 @@ export default{
     GetUserCountByType: async function(req, res){
         try {
             const users = await User.find()
-            console.log(users)
-            const bytype = new Set([users.forEach(item => item.access)])
-            console.log(bytype)
-            const obj = {}
-            bytype.forEach(item => {
-                const arr = users.filter(drug => drug.access === item)
-                obj[item] = arr
-            })
+            let bytype =[]
+            users.forEach(item => bytype.push(item.access))
+
+            let obj = {}
+            for(let i=0; i<bytype.length; i++){
+                const numberofUsers = await User.find({ access: bytype[i]})
+                obj ={...obj, [bytype[i]]: numberofUsers.length}
+                i++
+            }
+             
             return res.status(200).json({ success: true, data: obj })
         }
         catch (err) {
@@ -51,14 +57,21 @@ export default{
     GetDrugsByCategories: async function(req, res) {
         try{
             const drugs = await Drugs.find()
-            const bycategory = new Set([drugs.forEach(item=> item.categoryId)])
-            const obj = {}
-            bycategory.forEach(item=>{
-            console.log(item)
-            // const arr = drugs.filter(drug=> drug.categoryId === item)
-            // `obj${item}` = arr
-            // console.log(obj)
+            let byCategory = []
+            let obj = {}
+            drugs.forEach(drug=> {
+                byCategory.push(drug.categoryId)
+                            
             })
+
+            for(let i=0; i<byCategory.length; i++){
+                const categoryname = (await Category.findById(byCategory[i])).name
+                const catdrugs = await Drugs.GetDrugsByCategory(byCategory[i])
+
+                obj = { ...obj, [categoryname]: catdrugs.length }
+                i++
+            }
+
             return res.status(200).json({ success: true, data: obj})
         }
         catch(err){
@@ -68,14 +81,14 @@ export default{
     GetDrugsByPackage: async function(req, res) {
         try {
             const drugs = await Drugs.find()
-            const bypackage = new Set([drugs.forEach(item => item.packageType)])
-            const obj = {}
-            bypackage.forEach(item => {
-                console.log(item)
-                const arr = drugs.filter(drug => drug.packageType === item)
-                obj[item] = arr
-                console.log(obj)
-            })
+            let bypackage = []
+            drugs.forEach(drug=> bypackage.push(drug.packageType))
+            let obj = {}
+            for(let i=0; i<bypackage.length; i++) {
+                const nameofpackage = bypackage[i]
+                const drugsinPackage = await Drugs.GetDrugsByPackagename(bypackage[i])
+                obj = {...obj, [nameofpackage]: drugsinPackage.length }
+            }
             return res.status(200).json({ success: true, data: obj })
         }
         catch (err) {

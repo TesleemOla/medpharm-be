@@ -56,7 +56,7 @@ Manufacturers.statics.addNewManufacturer = async function(name, phoneNumber, add
 }
 Manufacturers.statics.deleteManufacturer = async function(id){
     try{
-        const deletedManufacturer = await this.deleteOne(id)
+        const deletedManufacturer = await this.findByIdAndDelete(id)
         return deletedManufacturer
     }
     catch(error){
