@@ -5,8 +5,8 @@ import User from "../models/user.model.js"
 export default {
     CreateUser: async function(req, res){
         try{
-            const { firstName, lastName, email, password } = req.body;
-            const newUser = await User.createUser(firstName, lastName, email, password)
+            const { firstName, lastName, email, password, access } = req.body;
+            const newUser = await User.createUser(firstName, lastName, email, password, access)
           
                    return res.status(201).json({ success: true, data: newUser})
             
@@ -19,9 +19,6 @@ export default {
         },
         GetUsers: async function(req, res){
             try{
-                // if(req.query.limit && ){
-
-                // }
                 const users = await User.findAllUsers()
                 return res.status(200).json({ success: true, data: users })
             }

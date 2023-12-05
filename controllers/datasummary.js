@@ -37,13 +37,16 @@ export default{
         try {
             const users = await User.find()
             let bytype =[]
-            users.forEach(item => bytype.push(item.access))
-
+            users.forEach(item => !bytype.find(type=> item === type) && bytype.push(item.access))
+            
             let obj = {}
+            console.log(bytype)
             for(let i=0; i<bytype.length; i++){
+                
                 const numberofUsers = await User.find({ access: bytype[i]})
+          
                 obj ={...obj, [bytype[i]]: numberofUsers.length}
-                i++
+                
             }
              
             return res.status(200).json({ success: true, data: obj })
@@ -59,17 +62,16 @@ export default{
             const drugs = await Drugs.find()
             let byCategory = []
             let obj = {}
-            drugs.forEach(drug=> {
-                byCategory.push(drug.categoryId)
-                            
-            })
+            drugs.forEach(drug=> byCategory.push(drug.categoryId))
 
+            
             for(let i=0; i<byCategory.length; i++){
+                
                 const categoryname = (await Category.findById(byCategory[i])).name
                 const catdrugs = await Drugs.GetDrugsByCategory(byCategory[i])
 
                 obj = { ...obj, [categoryname]: catdrugs.length }
-                i++
+                
             }
 
             return res.status(200).json({ success: true, data: obj})
@@ -84,6 +86,7 @@ export default{
             let bypackage = []
             drugs.forEach(drug=> bypackage.push(drug.packageType))
             let obj = {}
+            
             for(let i=0; i<bypackage.length; i++) {
                 const nameofpackage = bypackage[i]
                 const drugsinPackage = await Drugs.GetDrugsByPackagename(bypackage[i])

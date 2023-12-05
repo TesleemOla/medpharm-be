@@ -47,10 +47,10 @@ User.pre(
     }
 )
 
-User.statics.createUser = async function ( firstName, lastName, email, password ) { 
+User.statics.createUser = async function ( firstName, lastName, email, password, access ) { 
             try{
                
-            const user = await this.create({firstName, lastName, email, password } )
+            const user = await this.create({firstName, lastName, email, password, access } )
             
             return user
             } 

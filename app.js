@@ -19,6 +19,7 @@ import CustomerRoute from "./routes/customer.route.js"
 import DispatchedRoute from "./routes/dispatched.route.js"
 import Datasummary from "./routes/datasummary.route.js";
 import User from "./models/user.model.js"
+import UserController from "./controllers/user.controller.js"
 const app = express()
 
 
@@ -63,6 +64,7 @@ app.post("/login", (req, res) => {
 
 
 });
+app.post("/register", UserController.CreateUser)
 
 
 // token as middleware
