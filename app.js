@@ -42,7 +42,9 @@ app.get("/", (req, res) => {
 
 
 app.post("/login", (req, res) => {
-
+    const { email, password } = req.body
+    console.log(req.body)
+    if(!email || !password) res.status(400).json({ success: false, error: "Please provide an email and a password"})
     User.findOne({ email: req.body.email })
         .then(resp => {
             if (resp) {
@@ -52,9 +54,9 @@ app.post("/login", (req, res) => {
                             let token = jwt.sign({ id: result._id }, process.env.JWT_SECRET, {
                                 expiresIn: 86400 // expires in 24 hours
                             });
-                            res.status(200).json({ success: false, auth: true, token: token });
+                            return res.status(200).json({ success: true, token: token });
                         } else {
-                            res.status(409).json({ success: false, error: "Incorrect Password" })
+                            return res.status(409).json({ success: false, error: "Incorrect Password" })
                         }
                     })
                     .catch(err => res.status(401).send({ success: false, error: err.message }))

@@ -4,11 +4,12 @@ const Customer = Schema({
     customerName:{
         type: String,
         required: true,
-
+        unique: [true, "Name already in use, please use another"]
 
     },
     contactEmail:{
-        type: String
+        type: String,
+        unique: [true, "email already exists as a client"]
     },
     
     phoneNumber:{
@@ -26,7 +27,7 @@ const Customer = Schema({
     },
     adminId: {
        type: Types.ObjectId,
-       ref: "user"
+       ref: "User"
     }
 })
 
@@ -64,9 +65,9 @@ Customer.statics.findSingleCustomer = async function(id){
     }
 }
 
-Customer.statics.findCustomerByName = async function( query){
+Customer.statics.findCustomerByName = async function(rq){
     try{
-        const customer = await this.find({customerName:query})
+        const customer = await this.find({customerName:rq})
         return customer
     }
     catch(err){
@@ -74,7 +75,7 @@ Customer.statics.findCustomerByName = async function( query){
     }
 }
 
-Customer.statics.findCustomersByState= async function( state){
+Customer.statics.findCustomersByState= async function(state){
     try{
         const customers = await this.find({ state: state})
         return customers

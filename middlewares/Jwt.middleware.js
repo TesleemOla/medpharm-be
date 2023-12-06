@@ -18,7 +18,7 @@ export const encode= async function(req, res, next) {
                         email: email
                     };
 
-                    const options = { expiresIn: "240h" }
+                    const options = { expiresIn: "10 days" }
                     jwt.sign(payload, process.env.JWT_SECRET, options)
                     .then(result=>{
                         console.log(result)

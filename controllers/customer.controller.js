@@ -34,7 +34,8 @@ export default {
         }
     },
     GetCustomersByState: async function(req, res){
-        try{
+        console.log(req.query)
+        try{            
             const { state } = req.query
             if(!state){
                 const customers = await CustomerModel.findAllCustomers()
@@ -49,6 +50,7 @@ export default {
         }
     },
     GetCustomersByName: async function (req, res) {
+        console.log(req.query)
         try {
             const { name } = req.query
             if (!name) {
