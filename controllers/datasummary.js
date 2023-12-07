@@ -5,7 +5,7 @@ import Drugs from "../models/drug.model.js"
 import Inventory from "../models/inventory.model.js"
 import Manufacturer from "../models/manufacturers.model.js"
 import User from "../models/user.model.js"
-import { convertIdtoString, convertStringtoId } from "../middlewares/helperfunctions/convertId.js"
+import Supplier from "../models/suppliers.model.js"
 
 
 
@@ -19,6 +19,7 @@ export default{
             const dispatched = await Dispatched.find().count()
             const categories = await Category.find().count()
             const users = await User.find().count()
+            const suppliers = await Supplier.find().count()
             return res.status(200).json({success: true,data: {
                 users,
                 customers,
@@ -26,7 +27,8 @@ export default{
                 inventory,
                 drugs,
                 dispatched,
-                categories
+                categories,
+                suppliers
             }})
 
         } catch (error) {

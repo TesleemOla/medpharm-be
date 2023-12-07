@@ -57,7 +57,7 @@ export default {
                 const customers = await CustomerModel.findAllCustomers()
                 return res.status(200).json({ success: true, data: customers })
             } else {
-                const customers = await CustomerModel.findCustomersByName(name)
+                const customers = await CustomerModel.findCustomerByName(name)
                 return res.status(200).json({ success: true, data: customers })
             }
         }

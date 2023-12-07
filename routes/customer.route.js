@@ -10,9 +10,9 @@ router.post("/customer/create", customerController.CreateCustomer)
 
 router.get("/customer/:id", customerController.GetSingleCustomer)
 
-router.get("/customer/name", customerController.GetCustomersByName)
+router.get("/customer/name/by", customerController.GetCustomersByName)
 
-router.get("/customer/state", customerController.GetCustomersByState)
+router.get("/customer/state/by", customerController.GetCustomersByState)
 
 
 export default router

@@ -17,6 +17,7 @@ import DrugRoute from "./routes/drug.route.js"
 import DrugCategoryRoute from "./routes/drugCategory.route.js";
 import CustomerRoute from "./routes/customer.route.js"
 import DispatchedRoute from "./routes/dispatched.route.js"
+import SupplierRoute from "./routes/suppliers.route.js"
 import Datasummary from "./routes/datasummary.route.js";
 import User from "./models/user.model.js"
 import UserController from "./controllers/user.controller.js"
@@ -89,6 +90,7 @@ app.use("/api", DispatchedRoute)
 
 app.use("/api", Datasummary)
 
+app.use("/api", SupplierRoute)
 
 
 
