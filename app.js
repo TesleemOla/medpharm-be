@@ -2,14 +2,13 @@ import express from "express";
 import morgan from "morgan"
 import jwt from "jsonwebtoken"
 import helmet from "helmet"
-import { compare } from "bcrypt"
 import { config } from "dotenv";
 // import middlewares
 import errorHandler from "./middlewares/errorHandler.js"
 import Connect from "./db/db.js";
 
 // import routes
-import { decode } from "./middlewares/Jwt.middleware.js"
+import { decode, decodeAdmin, encode } from "./middlewares/Jwt.middleware.js"
 import UserRoute from "./routes/user.route.js"
 import ManufacturerRoute from "./routes/manufacturer.route.js"
 import InventoryRoute from "./routes/inventory.route.js"
@@ -42,55 +41,31 @@ app.get("/", (req, res) => {
 })
 
 
-app.post("/login", (req, res) => {
-    const { email, password } = req.body
-    console.log(req.body)
-    if(!email || !password) res.status(400).json({ success: false, error: "Please provide an email and a password"})
-    User.findOne({ email: req.body.email })
-        .then(resp => {
-            if (resp) {
-                compare(req.body.password, resp.password)
-                    .then(result => {
-                        if (result) {
-                            let token = jwt.sign({ id: result._id }, process.env.JWT_SECRET, {
-                                expiresIn: 86400 // expires in 24 hours
-                            });
-                            return res.status(200).json({ success: true, token: token });
-                        } else {
-                            return res.status(409).json({ success: false, error: "Incorrect Password" })
-                        }
-                    })
-                    .catch(err => res.status(401).send({ success: false, error: err.message }))
-            }
-        })
-        .catch(error => res.status(500).json({ error: error.message }))
-
-
-});
+app.post("/login", encode);
 app.post("/register", UserController.CreateUser)
 
 
 // token as middleware
 
-app.use(decode)
+
 // routes
-app.use("/user", UserRoute)
+app.use("/user", decodeAdmin, UserRoute)
 
-app.use("/api", ManufacturerRoute)
+app.use("/api", decodeAdmin, ManufacturerRoute)
 
-app.use("/api", InventoryRoute)
+app.use("/api", decodeAdmin, InventoryRoute)
 
-app.use("/api", DrugRoute)
+app.use("/api", decode, DrugRoute)
 
-app.use("/api", DrugCategoryRoute)
+app.use("/api", decodeAdmin, DrugCategoryRoute)
 
-app.use("/api", CustomerRoute)
+app.use("/api", decodeAdmin, CustomerRoute)
 
-app.use("/api", DispatchedRoute)
+app.use("/api", decodeAdmin, DispatchedRoute)
 
-app.use("/api", Datasummary)
+app.use("/api", decode, Datasummary)
 
-app.use("/api", SupplierRoute)
+app.use("/api", decode, SupplierRoute)
 
 
 
