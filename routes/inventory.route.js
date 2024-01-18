@@ -8,7 +8,7 @@ router.get("/inventories/:id", Inventory.GetSingleInventory)
 
 router.post("/inventories", Inventory.CreateInventory)
 
-router.put("/inventories/:id", Inventory.EditInventory)
+router.patch("/inventories/:id", Inventory.EditInventory)
 
 router.delete("/inventories/:id", Inventory.DeleteInventory)
 

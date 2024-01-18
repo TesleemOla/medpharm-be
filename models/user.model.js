@@ -23,9 +23,8 @@ const User = new mongoose.Schema({
     },
     access:{
         type: String,
-        enum: ["client", "admin", "staff", "marketer"],
+        enum: ["client", "admin"],
         default: "client"
-
 
     }
 },{
