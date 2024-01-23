@@ -5,12 +5,12 @@ import { compare } from "bcrypt"
  // encode user details
 
 
-export const encode= async function(req, res, next) {
+export const encode= async function(req, res) {
         const { email, password } = req.body
     if (!email || !password) res.status(400).json({ success: false, error: "Please provide an email and a password" })
         User.findOne({email})
        .then(resp=> {
-       
+            console.log(resp)
             compare(password, resp.password)
             .then(response=>{
                     const payload = {_id: resp._id, email, firstName: resp.firstName, lastName: resp.lastName, access: resp.access};
@@ -24,7 +24,7 @@ export const encode= async function(req, res, next) {
             .catch(err=> {
                 res.status(409).json({ error:err.message})})
         })
-       .catch(error=> res.status(500).json({error: error.message}))
+       .catch(error=> res.status(500).json({success: false, error: "username or password incorrect"}))
    
         
     
