@@ -1,8 +1,7 @@
 import express from "express";
 import morgan from "morgan"
-import jwt from "jsonwebtoken"
 import helmet from "helmet"
-import { config } from "dotenv";
+
 // import middlewares
 import errorHandler from "./middlewares/errorHandler.js"
 import Connect from "./db/db.js";
@@ -18,13 +17,11 @@ import CustomerRoute from "./routes/customer.route.js"
 import DispatchedRoute from "./routes/dispatched.route.js"
 import SupplierRoute from "./routes/suppliers.route.js"
 import Datasummary from "./routes/datasummary.route.js";
-import User from "./models/user.model.js"
 import UserController from "./controllers/user.controller.js"
 const app = express()
 
 
 // config and connect to mongoose
-config()
 Connect()
 
 // middlewares
