@@ -2,11 +2,11 @@
   "name": "medpharm-be",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "devStart": "nodemon --env-file .env app.js"
+    "start": "node index.js",
+    "devStart": "nodemon --env-file .env index.js"
   },
   "keywords": [],
   "author": "",
