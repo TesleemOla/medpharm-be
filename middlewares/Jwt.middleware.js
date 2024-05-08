@@ -86,12 +86,12 @@ export const encode = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return sendResponse(res, 500, false, { error: "Username or password incorrect" });
+            return sendResponse(res, 500, false, { error: "Username incorrect" });
         }
 
         const passwordMatch = await compare(password, user.password);
         if (!passwordMatch) {
-            return sendResponse(res, 409, false, { error: "Username or password incorrect" });
+            return sendResponse(res, 409, false, { error: "Password incorrect" });
         }
 
         const payload = {
