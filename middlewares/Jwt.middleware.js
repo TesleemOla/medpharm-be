@@ -108,7 +108,7 @@ export const encode = async (req, res) => {
             return sendResponse(res, 500, false, { error: "Error generating token" });
         }
 
-        return sendResponse(res, 200, true, { token });
+        return sendResponse(res, 200, true, { token, ...payload });
     } catch (error) {
         return sendResponse(res, 500, false, { error: error.message });
     }
