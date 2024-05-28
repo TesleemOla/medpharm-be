@@ -16,7 +16,7 @@ export default{
     GetAllCategories: async function(req, res){
         try{
             DrugCategory.getAllCategories()
-            .then(resp=> res.status(200).json({ success: true, data: resp.data }))
+            .then(resp=> res.status(200).json({ success: true, data: resp }))
             .catch(err=> res.status(400).json({ success: false, error: err}))
         }
         catch(error){
