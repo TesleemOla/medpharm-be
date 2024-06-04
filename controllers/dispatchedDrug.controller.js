@@ -5,7 +5,7 @@ export default{
         const { inventory, quantity, client} = req.body
         if(inventory && client && quantity){
             try{
-                const newDispatched = await dispatchedModel.CreateDispatched(inventory, quantity, client)
+                const newDispatched = await dispatchedModel.CreateDispatchedDrug(inventory, quantity, client)
                 return res.status(201).json({ success: true, data: newDispatched})
             }
             catch(err){ 
@@ -16,7 +16,7 @@ export default{
     },
     GetAllDispatched: async function(req, res){
         try{
-            const allDispatched = await dispatchedModel.GetAllDispatched;
+            const allDispatched = await dispatchedModel.GetAllDispatched();
             return res.status(200).json({ success: true, data:allDispatched})
         }
         catch(err){

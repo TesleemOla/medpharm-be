@@ -36,6 +36,7 @@ DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity
 DispatchedDrug.statics.GetAllDispatched = async function(){
     try{
         const allDispatched = await this.find().populate("inventory","client")
+        
         return allDispatched
     }
     catch(err){
