@@ -8,7 +8,7 @@ import errorHandler from "./middlewares/errorHandler.js"
 import Connect from "./db/db.js";
 
 // import routes
-import { decode, decodeAdmin, encode } from "./middlewares/Jwt.middleware.js"
+import { decode, encode } from "./middlewares/Jwt.middleware.js"
 import UserRoute from "./routes/user.route.js"
 import ManufacturerRoute from "./routes/manufacturer.route.js"
 import InventoryRoute from "./routes/inventory.route.js"
@@ -48,23 +48,23 @@ app.post("/register", UserController.CreateUser)
 
 
 // routes
-app.use("/user", decodeAdmin, UserRoute)
+app.use("/user", decode(["admin"]), UserRoute)
 
-app.use("/api", decodeAdmin, ManufacturerRoute)
+app.use("/api", ManufacturerRoute)
 
-app.use("/api", decodeAdmin, InventoryRoute)
+app.use("/api", InventoryRoute)
 
-app.use("/api", decode, DrugRoute)
+app.use("/api", DrugRoute)
 
-app.use("/api", decodeAdmin, DrugCategoryRoute)
+app.use("/api", DrugCategoryRoute)
 
-app.use("/api", decodeAdmin, CustomerRoute)
+app.use("/api", decode(["admin"]), CustomerRoute)
 
-app.use("/api", decodeAdmin, DispatchedRoute)
+app.use("/api", DispatchedRoute)
 
-app.use("/api", decode, Datasummary)
+app.use("/api", decode(["client"]), Datasummary)
 
-app.use("/api", decode, SupplierRoute)
+app.use("/api", decode(["admin"]), SupplierRoute)
 
 
 

@@ -114,39 +114,30 @@ export const encode = async (req, res) => {
     }
 };
 
-// Decode user details (admin)
-export const decodeAdmin = (req, res, next) => {
+// Decode user 
+export const decode =(roles)=>{
+    return (req, res, next) => {
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
-        return sendResponse(res, 401, false, { message: "User not authorized" });
+        return sendResponse(res, 403, false, { message: "Access denied" });
     }
+    try{
+        
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        req.user = decoded
+        
+       
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return sendResponse(res, 403, false, { error: err.message });
+        if(!roles.includes(req.user.access)){
+            return sendResponse(res, 401, false, { message: "user not authorized"} )
         }
-
-        if (user.access === "admin") {
-            req.user = user;
-        }
-
-        next();
-    });
+        next()
+    }
+    catch(err){
+        console.log(err)
+        return sendResponse(res, 400, false, {message:"Invalid Token"})
+    }
+}
 };
 
-// Decode user details
-export const decode = (req, res, next) => {
-    const token = req.headers["authorization"]?.split(" ")[1];
-    if (!token) {
-        return sendResponse(res, 401, false, { message: "User not authorized" });
-    }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return sendResponse(res, 403, false, { error: err.message });
-        }
-
-        req.user = user;
-        next();
-    });
-};

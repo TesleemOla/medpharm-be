@@ -1,14 +1,15 @@
 import { Router } from 'express'
+import { decode } from '../middlewares/Jwt.middleware.js'
 import Categories from "../controllers/drugcategory.controller.js"
 
 const router = Router()
 
-router.get("/drugCategory", Categories.GetAllCategories)
+router.get("/drugCategory", decode(["admin", "client"]), Categories.GetAllCategories)
 
-router.get("/drugCategory/:id", Categories.GetSingleCategory)
+router.get("/drugCategory/:id", decode(["admin", "client"]), Categories.GetSingleCategory)
 
-router.post("/drugCategory", Categories.CreateCategory)
+router.post("/drugCategory", decode(["admin"]), Categories.CreateCategory)
 
-router.put("/drugCategory/:id", Categories.EditCategory)
+router.put("/drugCategory/:id", decode(["admin"]), Categories.EditCategory)
 
 export default router
