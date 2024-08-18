@@ -43,5 +43,17 @@ export default{
         catch(error){
             return res.status(500).json({success: false, error:error})
         }
-     }
+     },
+    DeleteCategory: async function(req, res){
+        const { id } = req.params
+        try{
+            const category = await DrugCategory.deleteCategory(id)
+            return res.status()
+        }
+        catch(err){
+            return res.status(500).json({
+                success: false, error: err.message
+            })
+        }
+    }
 }

@@ -49,4 +49,14 @@ DrugCategory.statics.editcategory = async function(id, updatedValues){
         throw error
     }
 }
+
+DrugCategory.statics.deleteCategory = async function(id){
+    try{
+        const deletedItem = await this.deleteOne(id)
+        return deletedItem
+    }
+    catch(error){
+        throw error
+    }
+}
 export default model("DrugCategory", DrugCategory)

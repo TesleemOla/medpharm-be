@@ -12,4 +12,6 @@ router.post("/drugCategory", decode(["admin"]), Categories.CreateCategory)
 
 router.put("/drugCategory/:id", decode(["admin"]), Categories.EditCategory)
 
+router.delete("/drugCategory/:id", decode(["admin"]), Categories.DeleteCategory)
+
 export default router
