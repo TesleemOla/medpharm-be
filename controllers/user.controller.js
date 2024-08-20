@@ -1,4 +1,5 @@
 
+import { sendResponse } from "../middlewares/Jwt.middleware.js";
 import User from "../models/user.model.js"
 
 
@@ -57,6 +58,18 @@ export default {
             catch (error) {
                 return res.status(500).json({ success: false, error: error.message })
             }
-    }
+    },
+        ChangePassword: async function (req, res){
+            const { email, newpassword1, newpassword2 } = req.query
+            if (newpassword1 === newpassword2){
+            try{
+                const user = await user.changeUserPassword(email, newPassword1 )
+                return sendResponse(res, 201, true, user)
+            }
+            catch(err){
+                return sendResponse(res, 500,false, err.message)
+            }
+        }
+        }
 
 }

@@ -50,7 +50,6 @@ User.statics.createUser = async function ( firstName, lastName, email, password,
             try{
                
             const user = await this.create({firstName, lastName, email, password, access } )
-            
             return user
             } 
             catch(error){
@@ -96,6 +95,14 @@ User.statics.findUserById = async function(id){
         throw error
     }
 }
-
+User.statics.changeUserPassword = async function(email, newpassword){
+    try{
+        const user = await this.findOneandUpdate({ email: email}, { password: newpassword})
+        return user
+    }
+    catch(err){
+        throw err
+    }
+}
 
 export default mongoose.model('User',User)

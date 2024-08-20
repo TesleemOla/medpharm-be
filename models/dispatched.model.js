@@ -12,7 +12,7 @@ const DispatchedDrug = new Schema({
         required: true,
         default: 1,
     },
-    client: {
+    customer: {
         type: Types.ObjectId,
         ref: "Customer"
     }
@@ -24,7 +24,7 @@ DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity
         const newDispatched = await this.create({
              inventory: new Types.ObjectId(inventory), 
              quantity,
-             client: new Types.ObjectId(client)
+             customer: new Types.ObjectId(client)
              });
         return newDispatched
     }
@@ -35,7 +35,9 @@ DispatchedDrug.statics.CreateDispatchedDrug = async function(inventory, quantity
 
 DispatchedDrug.statics.GetAllDispatched = async function(){
     try{
-        const allDispatched = await this.find().populate("inventory","client")
+        const allDispatched = await this.find()
+        .populate('inventory')
+        .populate('customer')
         
         return allDispatched
     }
@@ -46,7 +48,9 @@ DispatchedDrug.statics.GetAllDispatched = async function(){
 
 DispatchedDrug.statics.GetDispatchedByCustomer = async function(customerId){
     try{
-        const dispatched = await this.find({ client: customerId}).populate('inventory', 'client')
+        const dispatched = await this.find({ client: customerId})
+        .populate('inventory')
+        .populate('customer')
         return dispatched
     }
     catch(err){
@@ -55,7 +59,9 @@ DispatchedDrug.statics.GetDispatchedByCustomer = async function(customerId){
 }
 DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
     try {
-        const dispatched = await this.find({ inventory: inventoryId }).populate('inventory', 'client')
+        const dispatched = await this.find({ inventory: inventoryId })
+        .populate('inventory')
+        .populate('customer')
         return dispatched
 
     }
@@ -65,7 +71,9 @@ DispatchedDrug.statics.GetDispatchedByInventory = async function(inventoryId){
 }
 DispatchedDrug.statics.GetSingleDispatched = async function(id){
     try {
-        const dispatched = await this.findById(id).populate('inventory', 'client')
+        const dispatched = await this.findById(id).
+        populate('inventory')
+        .populate('customer')
         return dispatched
 
     }

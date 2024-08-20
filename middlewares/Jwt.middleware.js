@@ -72,7 +72,7 @@ import User from "../models/user.model.js";
 import { compare } from "bcrypt";
 
 // Helper function for sending responses
-const sendResponse = (res, status, success, data) => {
+export const sendResponse = (res,status, success, data) => {
     return res.status(status).json({ success, ...data });
 };
 
@@ -81,17 +81,17 @@ export const encode = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return sendResponse(res, 400, false, { error: "Please provide an email and a password" });
+            return sendResponse( res,400, false, { error: "Please provide an email and a password" });
         }
 
         const user = await User.findOne({ email });
         if (!user) {
-            return sendResponse(res, 500, false, { error: "Username incorrect" });
+            return sendResponse( res,500, false, { error: "Username incorrect" });
         }
 
         const passwordMatch = await compare(password, user.password);
         if (!passwordMatch) {
-            return sendResponse(res, 409, false, { error: "Password incorrect" });
+            return sendResponse( res,409, false, { error: "Password incorrect" });
         }
 
         const payload = {
@@ -105,12 +105,12 @@ export const encode = async (req, res) => {
         const options = { expiresIn: "10 days" };
         const token = jwt.sign(payload, process.env.JWT_SECRET, options);
         if (!token) {
-            return sendResponse(res, 500, false, { error: "Error generating token" });
+            return sendResponse( res,500, false, { error: "Error generating token" });
         }
 
-        return sendResponse(res, 200, true, { token, ...payload });
+        return sendResponse( res,200, true, { token, ...payload });
     } catch (error) {
-        return sendResponse(res, 500, false, { error: error.message });
+        return sendResponse( res,500, false, { error: error.message });
     }
 };
 
@@ -119,7 +119,7 @@ export const decode =(roles)=>{
     return (req, res, next) => {
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
-        return sendResponse(res, 403, false, { message: "Access denied" });
+        return sendResponse( res,403, false, { message: "Access denied" });
     }
     try{
         
@@ -129,7 +129,7 @@ export const decode =(roles)=>{
        
 
         if(!roles.includes(req.user.access)){
-            return sendResponse(res, 401, false, { message: "user not authorized"} )
+            return sendResponse( res,401, false, { message: "user not authorized"} )
         }
         next()
     }
