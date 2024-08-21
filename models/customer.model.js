@@ -3,18 +3,18 @@ import { Schema, Types, model } from "mongoose";
 const Customer = Schema({
     customerName:{
         type: String,
-        required: true,
-        unique: [true, "Name already in use, please use another"]
+        required: [true, "Please provide a customer Name"],
+        unique: true,
 
     },
     contactEmail:{
         type: String,
-        unique: [true, "email already exists as a client"]
+        unique: true, 
     },
     
     phoneNumber:{
         type: String,
-        required: true
+        required: [true, "Phone Number is required"]
     },
     officeAddress:{
         type: String
