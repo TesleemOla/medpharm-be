@@ -60,15 +60,17 @@ export default {
             }
     },
         ChangePassword: async function (req, res){
-            const { email, newpassword1, newpassword2 } = req.query
+            const { email, newpassword1, newpassword2 } = req.body
             if (newpassword1 === newpassword2){
             try{
-                const user = await user.changeUserPassword(email, newPassword1 )
+                const user = await User.changeUserPassword(email, newpassword1 )
                 return sendResponse(res, 201, true, user)
             }
             catch(err){
                 return sendResponse(res, 500,false, err.message)
             }
+        }else{
+            return sendResponse(res, 500, false, "New password values not the same")
         }
         }
 

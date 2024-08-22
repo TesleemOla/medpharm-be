@@ -97,7 +97,7 @@ User.statics.findUserById = async function(id){
 }
 User.statics.changeUserPassword = async function(email, newpassword){
     try{
-        const user = await this.findOneandUpdate({ email: email}, { password: newpassword})
+        const user = await this.findOneAndUpdate({ email: email}, { password: newpassword})
         return user
     }
     catch(err){
