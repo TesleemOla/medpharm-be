@@ -115,20 +115,20 @@ export const encode = async (req, res) => {
 };
 
 // Decode user 
-export const decode =(roles)=>{
-    return (req, res, next) => {
+export const decode = (roles)=>{
+    return async (req, res, next) => {
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
         return sendResponse( res,403, false, { message: "Access denied" });
     }
     try{
         
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
         req.user = decoded
-        
+        })
        
 
-        if(!roles.includes(req.user.access)){
+        if(!roles.includes(await req?.user?.access)){
             return sendResponse( res,401, false, { message: "user not authorized"} )
         }
         next()
